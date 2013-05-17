@@ -1,0 +1,22 @@
+# Install and set up the Server Density agent
+#
+# See http://www.serverdensity.com/
+---
+- name: install boxed ice's repo public key
+  apt_key: url=https://www.serverdensity.com/downloads/boxedice-public.key state=present
+
+- name: add boxed ice's repository as an apt source
+  apt_repository: repo='deb http://www.serverdensity.com/downloads/linux/deb all main'
+
+- name: install sd-agent package from boxed ice's repository
+  apt: pkg=sd-agent state=latest update_cache=yes
+
+- name: ensure mysql dependencies are present
+  apt: pkg=python-dev state=present
+  apt: pkg=python-mysqldb state=present
+
+- name: copy the sd-agent config file
+  template: src=server-density-agent.cfg.j2 dest=/etc/sd-agent/config.cfg owner=sd-agent mode=0644
+
+- name: ensure sd-agent is running
+  service: name=sd-agent state=started enabled=yes

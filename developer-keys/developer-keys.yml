@@ -1,0 +1,24 @@
+# Uploads developer public keys to *nix servers
+#
+# To give access to a new developer add their username
+# to the $current_developers variable in your main playbook.
+---
+  # add developer user accounts
+  - name: ensure account exists
+    user: name=$item comment="" shell=/bin/bash createhome=yes
+    with_items: ${current_developers}
+
+  # send the developers' public keys to the server to allow passwordless SSH login
+  - name: add public key
+    authorized_key: user=$item state=present key='$FILE(keyfiles/$item.pub)'
+    with_items: ${current_developers}
+
+  # ################################################################
+  # Only edit below this line when a developer has left the company.
+  # ################################################################
+
+  # remove a developer's account (list their username in with_items)
+  # WARNING: This will delete everything in the user's home directory.
+  - name: remove developer's account (and thus their SSH access)
+    authorized_key: name=$item comment="" state=absent remove=yes
+    with_items: ${retired_developers}

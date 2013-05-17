@@ -1,0 +1,16 @@
+# Example playbook (to demo setting up the server density agent)
+#
+# To run this playbook on the command line:
+#     ansible-playbook -c ssh -i hosts example-playbook.yml
+# where hosts is the name of your ansible hosts file (inventory).
+#
+# Edit vars below with your server density credentials.
+---
+  - hosts: all
+    sudo: yes
+    vars:
+      # server density agent credentials
+      server_density_url: ""
+      server_density_agent_key: ""
+    tasks:
+      - include: server-density-agent.yml tags=server-density-agent

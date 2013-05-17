@@ -1,0 +1,15 @@
+# Example playbook (to demo developer-keys pattern)
+#
+# To run this playbook on the command line:
+#     ansible-playbook -c ssh -i hosts example-playbook.yml
+# where hosts is the name of your ansible hosts file (inventory).
+#
+# Edit current_developers and retired_developers as required.
+---
+  - hosts: all
+    sudo: yes
+    vars:
+      current_developers: [daviddoran, janedoe, johnsmith]
+      retired_developers: []
+    tasks:
+      - include: developer-keys.yml tags=developer-keys

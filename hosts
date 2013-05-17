@@ -1,0 +1,3 @@
+# ansible hosts file
+#SERVERNAME ansible_ssh_user=USERNAME ansible_ssh_host=IPADDRESS ansible_connection=ssh
+#web1 ansible_ssh_user=daviddoran ansible_ssh_host=192.0.2.1 ansible_connection=ssh
